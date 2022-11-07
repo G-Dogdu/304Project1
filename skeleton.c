@@ -351,9 +351,13 @@ int process_command(struct command_t *command) {
 
     // TODO: do your own exec with path resolving using execv()
     // do so by replacing the execvp call below
-    execvp(command->name, command->args); // exec+args+path
-    exit(0);
+
+    //execvp(command->name, command->args); // exec+args+path
 	
+	char file[50] = "/bin/";
+	execv(strcat(file, command->name), command -> args);
+    exit(0);
+
   } else {
     // TODO: implement background processes here
     wait(0); // wait for child process to finish

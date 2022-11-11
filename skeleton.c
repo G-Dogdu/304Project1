@@ -187,6 +187,20 @@ int parse_command(char *buf, struct command_t *command) {
     strcpy(command->args[arg_index++], arg);
   }
   command->arg_count = arg_index;
+
+  // increase args size by 2
+  command->args = (char **)realloc(command->args,
+                                   sizeof(char *) * (command->arg_count += 2));
+
+  // shift everything forward by 1
+  for (int i = command->arg_count - 2; i > 0; --i)
+    command->args[i] = command->args[i - 1];
+
+  // set args[0] as a copy of name
+  command->args[0] = strdup(command->name);
+  // set args[arg_count-1] (last) to NULL
+  command->args[command->arg_count - 1] = NULL;
+
   return 0;
 }
 
@@ -336,31 +350,17 @@ int process_command(struct command_t *command) {
     // add a NULL argument to the end of args, and the name to the beginning
     // as required by exec
 
-    // increase args size by 2
-    command->args = (char **)realloc(
-        command->args, sizeof(char *) * (command->arg_count += 2));
-
-    // shift everything forward by 1
-    for (int i = command->arg_count - 2; i > 0; --i)
-      command->args[i] = command->args[i - 1];
-
-    // set args[0] as a copy of name
-    command->args[0] = strdup(command->name);
-    // set args[arg_count-1] (last) to NULL
-    command->args[command->arg_count - 1] = NULL;
-
     // TODO: do your own exec with path resolving using execv()
     // do so by replacing the execvp call below
-
     //execvp(command->name, command->args); // exec+args+path
-	
-	char file[50] = "/bin/";
-	execv(strcat(file, command->name), command -> args);
+    char file[50] = "/bin/";
+	  execv(strcat(file, command->name), command -> args);
     exit(0);
-
   } else {
-    // TODO: implement background processes here
+   if(command -> background == false){
     wait(0); // wait for child process to finish
+	}
+
     return SUCCESS;
   }
 

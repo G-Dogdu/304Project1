@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <termios.h> // termios, TCSANOW, ECHO, ICANON
 #include <unistd.h>
+#include <fcntl.h>
 const char *sysname = "shellax";
 
 enum return_codes {
@@ -353,6 +354,13 @@ int process_command(struct command_t *command) {
     // TODO: do your own exec with path resolving using execv()
     // do so by replacing the execvp call below
     //execvp(command->name, command->args); // exec+args+path
+
+    int new_file = open("resultFile.txt",O_WRONLY | O_CREAT, 0777);
+    if(new_file == -1){
+      return 2;
+    }
+    int file2 = dup2(new_file, STDOUT_FILENO);
+    close(new_file);
     char file[50] = "/bin/";
 	  execv(strcat(file, command->name), command -> args);
     exit(0);

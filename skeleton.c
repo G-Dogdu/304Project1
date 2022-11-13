@@ -340,6 +340,26 @@ int process_command(struct command_t *command) {
     }
   }
 
+//An effort for q2
+  int file1;
+  if(command -> redirects[1]){          
+    file1 = open(command -> redirects[1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    } else if(command -> redirects[2]){
+    file1 = open(command -> redirects[2], O_WRONLY| O_CREAT| O_APPEND, 0777);
+    }
+
+
+    int file2 = dup2(file1, 1);
+    close(file1);
+
+
+// Some custom commands
+
+if(strcmp(command -> name, "greet") == 0){
+   printf("Greetings %s\n", command ->args[1]);
+   fflush(stdout);
+}
+
   pid_t pid = fork();
   if (pid == 0) // child
   {
@@ -355,12 +375,9 @@ int process_command(struct command_t *command) {
     // do so by replacing the execvp call below
     //execvp(command->name, command->args); // exec+args+path
 
-    int new_file = open("resultFile.txt",O_WRONLY | O_CREAT, 0777);
-    if(new_file == -1){
-      return 2;
-    }
-    int file2 = dup2(new_file, STDOUT_FILENO);
-    close(new_file);
+  
+    
+    
     char file[50] = "/bin/";
 	  execv(strcat(file, command->name), command -> args);
     exit(0);
@@ -368,11 +385,11 @@ int process_command(struct command_t *command) {
    if(command -> background == false){
     wait(0); // wait for child process to finish
 	}
-
     return SUCCESS;
   }
 
   // TODO: your implementation here
+
 
   printf("-%s: %s: command not found\n", sysname, command->name);
   return UNKNOWN;

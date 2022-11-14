@@ -241,7 +241,7 @@ int prompt(struct command_t *command) {
   buf[0] = 0;
   while (1) {
     c = getchar();
-    // printf("Keycode: %u\n", c); // DEBUG: uncomment for debugging
+    //printf("Keycode: %u\n", c); // DEBUG: uncomment for debugging
 
     if (c == 9) // handle tab
     {
@@ -352,6 +352,51 @@ int process_command(struct command_t *command) {
     int file2 = dup2(file1, 1);
     close(file1);
 
+//An effort for q3
+
+
+if(strcmp(command -> name, "parta") == 0){
+   FILE *file;
+   int line = 0;
+   int max_lines = 100;
+   int max_len = 100;
+   char data[max_lines][max_len];
+   char c;
+   int count;
+   char uniq[max_lines];
+   int freq[max_lines];
+   bool isUniq;
+   file = fopen(command ->args[1], "r");
+   if(file == NULL){
+    printf("error opening a file \n");
+   }
+    for (c = getc(file); c != EOF; c = getc(file)){
+        if (c == '\n'){ 
+            count = count + 1;
+        }
+    }
+     fclose(file);
+     file = fopen(command ->args[1], "r");
+  for(int a = 0; a<count; a++){
+       if(fgets(data[line], max_len, file) != NULL){
+           line++;
+       }
+  }
+  
+  for (int i = 0; i < line; i++)
+  {
+    for (int j = 0; j < line; j++)
+    {
+      if(data[i] == data[j]){
+        freq[i] += 1;
+      }
+    }
+    //printf("%s", data[i]);
+  }
+   
+  fclose(file);
+ 
+}
 
 // Some custom commands
 

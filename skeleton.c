@@ -365,6 +365,7 @@ if(strcmp(command -> name, "parta") == 0){
    int count;
    char uniq[max_lines];
    int freq[max_lines];
+   int repeat;
    bool isUniq;
    file = fopen(command ->args[1], "r");
    if(file == NULL){
@@ -375,8 +376,8 @@ if(strcmp(command -> name, "parta") == 0){
             count = count + 1;
         }
     }
-     fclose(file);
-     file = fopen(command ->args[1], "r");
+     //fclose(file);
+    file = fopen(command ->args[1], "r");
   for(int a = 0; a<count; a++){
        if(fgets(data[line], max_len, file) != NULL){
            line++;
@@ -387,13 +388,53 @@ if(strcmp(command -> name, "parta") == 0){
   {
     for (int j = 0; j < line; j++)
     {
-      if(data[i] == data[j]){
-        freq[i] += 1;
+      if(strcmp(data[i], data[j]) == 0){
+        freq[i]++;
       }
     }
-    //printf("%s", data[i]);
   }
-   
+  for (int i = 0; i < line; i++)
+  {
+    for (int j = 0; j < line; j++)
+    {
+      if(strcmp(data[i], data[j]) == 0 && i != j){
+        data[j][0] = '\0';
+        freq[j] = 0;
+      }
+    }
+  }
+
+
+  if(strcmp(command -> args[2], "-c") == 0){
+    for (int k = 0; k < line; k++)
+  {
+    if (freq[k] != 0)
+    {
+      printf("%d %s", freq[k],data[k]);
+    }
+    
+  }
+  }else if(strcmp(command -> args[2], "--count") == 0){
+
+     for (int m = 0; m < line; m++)
+  {
+      if(freq[m] != 0){
+    printf("%d %s", freq[m],data[m]);
+    }
+     
+  }
+  } else if(strcmp(command -> args[2], "-w") == 0){
+     for (int l = 0; l < line; l++)
+  {
+     printf("%s",data[l]);
+  }
+  }
+
+  for (int c= 0; c < line; c++)
+  {
+    freq[c] = 0;
+  }
+  
   fclose(file);
  
 }

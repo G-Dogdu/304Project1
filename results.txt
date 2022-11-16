@@ -1,0 +1,12 @@
+results.txt
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$ 
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$ 
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$ ls
+new.txt
+resultFile.txt
+results.txt
+skeleton
+skeleton.c
+words.txt
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$  
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$ ls >> output.txt

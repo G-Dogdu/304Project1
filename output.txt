@@ -1,0 +1,6 @@
+output.txt
+gorkem@gorkem-Lenovo-Yoga-C740-14IML:/home/gorkem/Desktop/304_Project1/304Project1 shellax$ ls
+
+
+
+

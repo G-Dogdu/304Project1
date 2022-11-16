@@ -341,21 +341,34 @@ int process_command(struct command_t *command) {
   }
 
 //An effort for q2
-  int file1;
+
+  /*int file1;
+  int file3;
   if(command -> redirects[1]){          
-    file1 = open(command -> redirects[1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-    } else if(command -> redirects[2]){
-    file1 = open(command -> redirects[2], O_WRONLY| O_CREAT| O_APPEND, 0777);
-    }
+    file1 = open(command -> args[1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+    } 
+    else if(command -> redirects[2]){
 
+    file1 = open(command -> args[1], O_WRONLY| O_CREAT| O_APPEND, 0777);
 
-    int file2 = dup2(file1, 1);
+    } 
+     int file2 = dup2(file1, STDOUT_FILENO);
     close(file1);
+
+    if(command -> redirects[0]){
+
+    file3 = open(command -> args[1], O_RDONLY, 0777);
+    
+    }
+    int file4 = dup2(file3, STDIN_FILENO);
+    close(file3);
+
+*/
+   
 
 //An effort for q3
 
-
-if(strcmp(command -> name, "parta") == 0){
+if(strcmp(command -> name, "part_a") == 0){
    FILE *file;
    int line = 0;
    int max_lines = 100;
@@ -439,11 +452,73 @@ if(strcmp(command -> name, "parta") == 0){
  
 }
 
+if(strcmp(command -> name, "wiseman") == 0){
+   
+   char parameter[10] = "";
+   int minute;
+   
+   strcpy(parameter, command -> args[1]);
+   sscanf(parameter,"%d",&minute);
+   
+   int sec = minute * 60;
+   
+
+   while(1){
+      system("fortune");
+      sleep(sec);
+   }
+}
+
 // Some custom commands
 
 if(strcmp(command -> name, "greet") == 0){
    printf("Greetings %s\n", command ->args[1]);
    fflush(stdout);
+}
+
+//I got this code from https://stackoverflow.com/questions/58269874/drawing-an-x-with-c-with-only-while-loops-if-statements
+
+if(strcmp(command -> name, "x") == 0){
+   int i=0, j=0;
+   int size = 7;
+   while(i<size)
+{
+    j=0;
+    while(j<size)
+    {
+        if(j == i || i == (size-1)-j)
+        {
+            printf("X");
+        }
+        else
+        {
+            printf("*");
+        }
+        j++;
+    }
+    printf("\n\n");
+    i++;
+} 
+}
+
+// you need to install cowsay command to use this
+if(strcmp(command -> name, "cow") == 0){
+   system("fortune | cowsay");
+}
+
+if(strcmp(command -> name, "counter") == 0){
+   char time[10] = "";
+   int sec;
+   int count = 0;
+   strcpy(time, command -> args[1]);
+   sscanf(time,"%d",&sec);
+   
+   while(sec >= 0){
+      printf("current number : %d\n", count);
+      sleep(1);
+      sec --;
+      count ++;
+   }
 }
 
   pid_t pid = fork();
